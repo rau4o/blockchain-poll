@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import {Poll} from "./type";
+import {Poll, PollForm, PollVote} from "./type";
+import {PollService} from "./services/poll.service";
 
 @Component({
   selector: 'app-root',
@@ -9,26 +10,12 @@ import {Poll} from "./type";
 export class AppComponent {
 
   public showForm: boolean = false;
-  public activePoll = null;
+  public activePoll: Poll = null;
 
-  public polls: Poll[] = [
-    {
-      id: 1,
-      question: 'Do you like dogs or cats',
-      thumbnail: 'https://images.pexels.com/photos/46024/pexels-photo-46024.jpeg',
-      results: [0, 5, 7],
-      voted: true,
-      options: ['Cats', 'Dogs']
-    },
-    {
-      id: 1,
-      question: 'Do you like dogs or cats',
-      thumbnail: 'https://images.pexels.com/photos/46024/pexels-photo-46024.jpeg',
-      results: [0, 5, 7],
-      voted: false,
-      options: ['June', 'July', 'August']
-    }
-  ];
+  public polls = this.pollService.getPolls();
+
+  constructor(private pollService: PollService) {
+  }
 
   public setActivePoll(poll: Poll): void {
     this.activePoll = null;
@@ -38,5 +25,11 @@ export class AppComponent {
     }, 100)
   }
 
+  public handlePollCreate(poll: PollForm): void {
+    this.pollService.createPoll(poll);
+  }
 
+  public handlePollVote(poll: PollVote): void {
+   this.pollService.vote(poll.id, poll.vote);
+  }
 }

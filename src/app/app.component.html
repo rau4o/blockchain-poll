@@ -9,12 +9,12 @@
 </section>
 
 <ng-container *ngIf="showForm">
-  <app-poll-create></app-poll-create>
+  <app-poll-create (pollCreated)="handlePollCreate($event)"></app-poll-create>
 </ng-container>
 
 <div class="d-flex">
   <div class="container poll-list">
-    <ng-container *ngFor="let poll of polls">
+    <ng-container *ngFor="let poll of polls | async">
       <app-poll [question]="poll.question"
                 [voted]="poll.voted"
                 [pollImage]="poll.thumbnail"
@@ -25,10 +25,12 @@
   </div>
   <div class="container poll-detail">
     <ng-container *ngIf="activePoll">
-      <app-poll-vote [voted]="activePoll.voted"
+      <app-poll-vote [id]="activePoll.id"
+                     [voted]="activePoll.voted"
                      [question]="activePoll.question"
                      [options]="activePoll.options"
-                     [results]="activePoll.results">
+                     [results]="activePoll.results"
+                     (pollVoted)="handlePollVote($event)">
       </app-poll-vote>
     </ng-container>
   </div>
