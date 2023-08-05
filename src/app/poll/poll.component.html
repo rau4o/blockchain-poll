@@ -4,11 +4,13 @@
   </div>
   <div class="card-body">
     <p class="card-text text-truncate font-weight-bold">
-      Do you like more cats or dogs
+      {{question}}
     </p>
     <div class="d-flex justify-content-between">
-      <small class="text-muted">10 votes</small>
-      <small class="text-muted">voted</small>
+      <small class="text-muted">Votes: {{numberOfVotes}}</small>
+      <ng-container *ngIf="voted">
+        <small class="badge badge-success" style="color: green">voted</small>
+      </ng-container>
     </div>
   </div>
 </div>
