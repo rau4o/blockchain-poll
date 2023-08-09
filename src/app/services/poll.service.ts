@@ -32,7 +32,6 @@ export class PollService {
   }
 
   public createPoll(poll: PollForm) {
-    console.log(poll.options.map(opt => fromAscii(opt)));
     this.web3.executeTransaction('createPoll', poll.question, poll.thumbnail || '', poll.options.map(opt => fromAscii(opt) + '000000000000000000000000000000000000000000000000000000000000'));
   }
 
