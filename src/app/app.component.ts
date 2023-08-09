@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Poll, PollForm, PollVote} from "./type";
 import {PollService} from "./services/poll.service";
 
@@ -7,7 +7,7 @@ import {PollService} from "./services/poll.service";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
 
   public showForm: boolean = false;
   public activePoll: Poll = null;
@@ -15,6 +15,12 @@ export class AppComponent {
   public polls = this.pollService.getPolls();
 
   constructor(private pollService: PollService) {
+  }
+
+  ngOnInit(): void {
+    this.pollService.onEvent('PollCreated').subscribe(_ => {
+      this.polls = this.pollService.getPolls();
+    })
   }
 
   public setActivePoll(poll: Poll): void {
